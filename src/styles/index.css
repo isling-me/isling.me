@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*Custom CSS*/
+html {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 20px;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.625;
+}
+
+p {
+  line-height: 1.625;
+  color: #4a5568;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 1.875rem;
+}
+
+h2 {
+  font-size: 1.625rem;
+}
+
+h3 {
+  font-size: 1.325rem;
+}
+
+a {
+  @apply text-gray-900;
+}
+
+.post {
+  max-width: 700px;
+}
+
+.post .author {
+  line-height: normal;
+}
+
+.post .author .info {
+  font-size: 0.825em;
+  line-height: inherit;
+}
+
+.post .markdown {
+  margin-top: 20px;
+}
+
+.markdown p {
+  padding: 10px 0;
+}
+
+.markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+  padding-bottom: 10px;
+}
