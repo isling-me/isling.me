@@ -1,68 +1,63 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from 'react-router-dom';
-// @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import { Grid, Typography } from '@material-ui/core';
-// @material-ui/icons
-
-// core components
-import postCardMiniStyles from './postCardMiniStyles';
 
 function PostCardMini(props) {
   const {
-    classes,
     index,
-    post: {
-      title,
-      publishedDate,
-      readingTime,
-      link,
-    },
+    title,
+    publishedDate,
+    readingTime,
+    link,
     author,
     topic,
   } = props;
   return (
-    <div className={classes.root}>
-      <Grid container component={Link} to={link}>
-        <Grid item xs={3}>
-          <Typography className={classes.index} variant="h4">
-            {index}
-          </Typography>
-        </Grid>
-        <Grid item xs={9}>
-          <div className={classes.title}>{title}</div>
-          <div className={classes.body}>
-            <div className={classes.author}>
-              <Link
-                to={`${author.link}`}
-                className={classes.link}>
-                {author.name}
-              </Link> in <Link
-              to={`${topic.link}`}
-              className={classes.link}
-            >
-              {topic.name}
-            </Link>
-            </div>
-            <div className={classes.publishedDate}>{publishedDate} ・ {readingTime}</div>
+    <div className="flex-grow">
+      <Link to={link}>
+        <div className="flex">
+          <div className="mr-3">
+            <h4 className="text-5xl text-gray-300 leading-none">
+              {index}
+            </h4>
           </div>
-        </Grid>
-      </Grid>
+          <div className="flex-1">
+            <div className="font-semibold text-base">{title}</div>
+            <div className="pt-0">
+              <div className="text-sm">
+                <Link
+                  to={`${author.link}`}
+                  className="link hover:underline focus:underline"
+                >
+                  {author.name}
+                </Link>
+                <div className="inline px-1">in</div>
+                <Link
+                  to={`${topic.link}`}
+                  className="link hover:underline focus:underline"
+                >
+                  {topic.name}
+                </Link>
+              </div>
+              <div className="text-xs font-light">
+                <time className="inline">{publishedDate}</time>
+                <div className="middotDivider px-1 inline"/>
+                <div className="inline">{readingTime}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 }
 
 PostCardMini.propTypes = {
-  classes: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  post: PropTypes.objectOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    caption: PropTypes.string,
-    publishedDate: PropTypes.string.isRequired,
-    readingTime: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  })).isRequired,
+  title: PropTypes.string.isRequired,
+  caption: PropTypes.string,
+  publishedDate: PropTypes.string.isRequired,
+  readingTime: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
   author: PropTypes.objectOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
@@ -73,4 +68,4 @@ PostCardMini.propTypes = {
   })).isRequired,
 };
 
-export default withStyles(postCardMiniStyles)(PostCardMini);
+export default PostCardMini;

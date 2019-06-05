@@ -1,112 +1,55 @@
-import React, { Fragment } from "react";
-import classNames from "classnames";
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, { useEffect, useState } from 'react';
 
 // sections for this page
-import SectionPosts from "./Sections/SectionPosts";
-import SectionPopular from "./Sections/SectionPopular";
+import SectionPosts from './Sections/SectionPosts';
+import SectionPopular from './Sections/SectionPopular';
 
-import componentsStyle from "assets/jss/material-kit-react/views/components.jsx";
-import GridContainer from "../../components/Grid/GridContainer";
-import GridItem from "../../components/Grid/GridItem";
-import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
+import { getPosts, getPopular } from '../../api';
 
-const postSamples = [
-  {
-    post: {
-      title: 'Thời thanh xuân sẽ qua - Chap 2',
-      caption: 'Chúng ta còn trẻ, ta chẳng có gì ngoài một bầu nhiệt huyết thanh xuân',
-      cover: '/img/thoi-thanh-xuan-se-qua-c2-cover.jpg',
-      publishedDate: 'Jun 04',
-      readingTime: '15 min read',
-      link: '/posts/thoi-thanh-xuan-se-qua-chap-2',
-    },
-    author: {
-      name: 'Nichibu',
-      username: 'nichibu',
-    },
-    topic: {
-      name: 'Stories',
-      slug: 'stories',
-    },
-  },
-  {
-    post: {
-      title: 'Thời thanh xuân sẽ qua - Chap 1',
-      caption: 'Tuổi trẻ giống như một cơn mưa rào, dù có bị ướt thì bạn vẫn muốn được tắm mưa một lần nữa...',
-      cover: '/img/thoi-thanh-xuan-se-qua-c1-cover2.jpg',
-      publishedDate: 'May 28',
-      readingTime: '15 min read',
-      link: '/posts/thoi-thanh-xuan-se-qua-chap-1',
-    },
-    author: {
-      name: 'Nichibu',
-      username: 'nichibu',
-    },
-    topic: {
-      name: 'Stories',
-      slug: 'stories',
-    },
-  },
-];
+function Home() {
+  const [state, setState] = useState({
+    posts: [],
+    populars: [],
+  });
 
-const postPopularSamples = [
-  {
-    post: {
-      title: 'Thời thanh xuân sẽ qua - Chap 1',
-      publishedDate: 'May 28',
-      readingTime: '15 min read',
-      link: '/posts/thoi-thanh-xuan-se-qua-chap-1',
-    },
-    author: {
-      name: 'Nichibu',
-      username: 'nichibu',
-    },
-    topic: {
-      name: 'Stories',
-      slug: 'stories',
-    },
-  },
-  {
-    post: {
-      title: 'Thời thanh xuân sẽ qua - Chap 2',
-      publishedDate: 'Jun 04',
-      readingTime: '15 min read',
-      link: '/posts/thoi-thanh-xuan-se-qua-chap-2',
-    },
-    author: {
-      name: 'Nichibu',
-      username: 'nichibu',
-    },
-    topic: {
-      name: 'Stories',
-      slug: 'stories',
-    },
-  },
-];
+  useEffect(() => {
+    getPosts(0, 10)
+      .then((res) => {
+        setState(prev => ({
+          ...prev,
+          posts: [...prev.posts, ...res.data.items],
+        }));
+      });
 
-function Home(props) {
-  const { classes } = props;
+    getPopular()
+      .then((res) => {
+        setState(prev => ({
+          ...prev,
+          populars: res.data.items,
+        }));
+      });
+
+    return () => {};
+  }, []);
+
   return (
-    <Fragment>
-      <div className={classNames(classes.root, classes.main)}>
-        <div className={classes.container}>
-          <GridContainer className="mt-24">
-            <GridItem xs={12} sm={12} md={8}>
-              <SectionPosts
-                posts={postSamples}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <SectionPopular
-                posts={postPopularSamples}
-              />
-            </GridItem>
-          </GridContainer>
+    <div className="container mx-auto">
+      <div className="p-6 lg:p-0">
+        <div className="relative w-full mt-3 lg:mt-24">
+          <div className="w-full lg:w-8/12">
+            <SectionPosts
+              posts={state.posts}
+            />
+          </div>
+          <div className="lg:w-4/12 hidden lg:block absolute top-0 right-0">
+            <SectionPopular
+              posts={state.populars}
+            />
+          </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 
-export default withStyles(componentsStyle)(Home);
+export default Home;

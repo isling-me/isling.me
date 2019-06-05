@@ -9,14 +9,17 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-markdown": "^4.0.8",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1"
   },
   "scripts": {
     "build:css": "postcss src/styles/index.css -o src/assets/css/index.css",
-    "watch:css": "postcss src/styles/index.css -o src/assets/css/index.css -w",
+    "watch:css": "postcss src/styles/index.css -o src/assets/css/index.css --watch",
     "start": "react-scripts start",
     "build": "npm run build:css && react-scripts build",
+    "gcp:push": "gcloud compute scp ./build/* isling:~/isling.me --recurse",
+    "deploy": "npm run build && npm run gcp:push",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
