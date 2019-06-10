@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import MarkDown from 'react-markdown';
 import { withRouter, Link } from 'react-router-dom';
-import LeftSideBar from '../../components/LeftSideBar/LeftSideBar';
+import NavBar from '../../components/NavBar/NavBar';
+import SideBar from '../../components/SideBar/SideBar';
 import { getOnePost } from '../../api';
 
 function App({ match }) {
@@ -25,18 +26,23 @@ function App({ match }) {
 
   return (
     <Fragment>
-      <LeftSideBar/>
+      <div className="lg:hidden">
+        <NavBar/>
+      </div>
+      <div className="hidden lg:block">
+        <SideBar/>
+      </div>
       <div className="container m-auto">
         <div className="post m-auto">
           {post && (
             <div className="postContent px-6 lg:px-0">
-              <div className="title text-2xl lg:text-3xl pt-6 lg:pt-24 text-justify">
+              <div className="title text-3xl lg:text-4xl pt-6 lg:pt-24 text-justify">
                 {post.title}
               </div>
-              <div className="pt-1 text-base text-gray-700">
-                {post.caption}
-              </div>
-              <div className="flex bg-white rounded-lg pt-4 pb-4 author items-center">
+              {/*<div className="pt-1 text-base text-gray-700">*/}
+              {/*  {post.caption}*/}
+              {/*</div>*/}
+              <div className="flex bg-white rounded-lg pt-8 pb-8 author items-center">
                 <img className="w-10 h-10 rounded-full mx-auto" alt="no description" src={post.author.avatar}/>
                 <div className="text-left flex-1 pl-2">
                   <Link to={post.author.link}>

@@ -1,10 +1,15 @@
 {
   "short_name": "isling",
-  "name": "fun app for funner",
+  "name": "Write whatever you want",
   "icons": [
     {
-      "src": "logo.jpg",
-      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "500x500.png",
+      "sizes": "500x500",
       "type": "image/x-icon"
     }
   ],

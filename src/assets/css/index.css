@@ -7630,15 +7630,29 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
-h1 {
+.markdown {
+  line-height: 1.58;
+  color: #4a5568;
+  letter-spacing: .1px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  word-break: break-word;
+}
+
+.markdown > *+* {
+  margin-top: 1.5rem;
+}
+
+.markdown h1 {
   margin-bottom: .25rem;
   line-height: 1;
   color: #1a202c;
   font-weight: 300;
-  font-size: 1.875rem;
+  font-size: 1.675rem;
 }
 
-h2 {
+.markdown h2 {
   margin-top: 4rem;
   margin-bottom: 1rem;
   color: #1a202c;
@@ -7647,7 +7661,7 @@ h2 {
   font-size: 1.5rem;
 }
 
-h3 {
+.markdown h3 {
   margin-top: 3rem;
   margin-bottom: -.75rem;
   color: #1a202c;
@@ -7656,16 +7670,7 @@ h3 {
   font-size: 1.25rem;
 }
 
-h2 + h3 {
-  margin-top: 1.5rem;
-}
-
-.markdown {
-  line-height: 1.58;
-  color: #4a5568;
-}
-
-.markdown > *+* {
+.markdown h2 + .markdown h3 {
   margin-top: 1.5rem;
 }
 
@@ -7929,10 +7934,24 @@ h2 + h3 {
   display: block;
 }
 
-.leftSideBar .component {
-  /*height: 100vh;*/
-  /*transform: translateY(150px);*/
-  z-index: 100;
+.sideBar .brand .text {
+  text-transform: uppercase;
+  margin-left: -20px;
+  opacity: 0;
+  transition: opacity 0.8s, margin-left 1s;
+}
+
+.sideBar .brand img {
+  transition: 0.8s;
+}
+
+.sideBar .brand:hover .text {
+  margin-left: 0.4rem;
+  opacity: 1;
+}
+
+.sideBar .brand:hover img {
+  margin-left: -0.3rem;
 }
 
 .middotDivider:after {

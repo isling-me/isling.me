@@ -19,7 +19,9 @@ function PostCard(props) {
         <div className="flex">
           <div className="w-9/12">
             <div className="w-full">
-              <div className="text-base lg:text-2xl font-semibold mt-0 text-gray-900 line-height-100">{title}</div>
+              <div className="text-base lg:text-xl font-semibold mt-0 text-gray-900 line-height-100">
+                {title}
+              </div>
               <div
                 className="mt-1 text-gray-700 text-xs lg:text-base font-light line-height-120 lg:line-height-140">
                 {caption}
@@ -40,7 +42,7 @@ function PostCard(props) {
                   {topic.name}
                 </Link>
               </div>
-              <div className="text-xs font-light my-0 -mt-2 lg:-mt-1">
+              <div className="text-xs lg:text-sm font-light my-0 -mt-1 lg:-mt-1">
                 <time className="inline">{publishedDate}</time>
                 <div className="inline px-1 middotDivider text-xs font-semibold"/>
                 <div className="inline">{readingTime}</div>

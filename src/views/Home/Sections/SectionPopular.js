@@ -7,7 +7,7 @@ function SectionPopular(props) {
   return (
     <div className="pt-6">
       <div className="container">
-        <div className="p-6">
+        <div className="p-6 pl-2">
           {posts.map((p, idx) => (
             <div className="pb-5" key={p.slug}>
               <PostCard

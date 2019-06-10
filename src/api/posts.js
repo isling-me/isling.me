@@ -38,14 +38,8 @@ export const getOnePost = (slug) => {
 
     const data = result[0];
 
-    fetch(data.contentUri)
-      .then(res => res.text())
-      .then(text => {
-        data.contentUri = null;
-        data.content = text;
-        resolve({
-          data,
-        });
-      });
+    resolve({
+      data,
+    });
   });
 };

@@ -125,6 +125,11 @@ h1, h2, h3, h4, h5, h6 {
 .markdown {
   line-height: 1.58;
   color: #4a5568;
+  letter-spacing: .1px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  word-break: break-word;
 }
 
 .markdown > *+* {
@@ -136,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   color: #1a202c;
   font-weight: 300;
-  font-size: 1.875rem;
+  font-size: 1.675rem;
 }
 
 .markdown h2 {
@@ -394,10 +399,24 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
 }
 
-.leftSideBar .component {
-  /*height: 100vh;*/
-  /*transform: translateY(150px);*/
-  z-index: 100;
+.sideBar .brand .text {
+  text-transform: uppercase;
+  margin-left: -20px;
+  opacity: 0;
+  transition: opacity 0.8s, margin-left 1s;
+}
+
+.sideBar .brand img {
+  transition: 0.8s;
+}
+
+.sideBar .brand:hover .text {
+  margin-left: 0.4rem;
+  opacity: 1;
+}
+
+.sideBar .brand:hover img {
+  margin-left: -0.3rem;
 }
 
 .middotDivider:after {

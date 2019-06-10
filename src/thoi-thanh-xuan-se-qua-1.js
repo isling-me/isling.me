@@ -1,4 +1,8 @@
-### Hà Nội, ngày 28-06-2028
+export default
+`
+## Bắt đầu từ một bức ảnh #Chương 1
+
+Hà Nội, ngày 28-06-2028
 
 Bước vào ngôi nhà nhỏ sau một ngày dài mệt mỏi ở trường, còn chưa kịp cởi giày thì An đã nghe thấy tiếng reo vang “a, mẹ ơi bố về rồi” cùng với một cơn lốc màu sắc sà vào lòng anh. Hôm nay bé Tâm mặc một chiếc váy thêu những bông hoa và cánh bướm rất đẹp, trên tóc con bé còn lấp lánh ánh kim tuyến mà anh chắc đó là sản phẩm của một trong số những trò chơi của con bé nghịch ngợm này.
 
@@ -8,9 +12,13 @@ Tâm vừa nói vừa ngước đôi mắt to tròn đầy mong đợi nhìn anh
 
 -  Giỏi quá, thật không hổ danh là con gái của bố, con vẽ bức tranh gì vậy?
 - À bố đợi chút để con đi lấy cho bố xem nhé.
+
 Nói đoạn con bé chạy vụt vào nhà và trở ra ngay với bức tranh cùng với điểm 10 đỏ chót ở trên góc.
+
 - Chủ đề lần này là vẽ về tình bạn, hôm trước xem lại album ảnh con tình cờ thấy bức ảnh bố mẹ và các cô chú mà bố mẹ có vẻ trân trọng nó lắm nên con đã vẽ lại bức ảnh đó bố ạ….
+
 An cầm bức tranh trên tay mà không thực sự lắng nghe. Những nét bút rất trẻ con vẽ lại cảnh 7 người bạn đang đứng bên nhau tươi cười phía trước một cái cổng cong cong làm anh thấy thật sự bồi hồi. Gần 10 năm đã trôi qua kể từ ngày chụp bức ảnh đó mà anh thấy mới như ngày hôm qua vậy…
+
 - Bố biết không, sau này lớn lên con nhất định cũng sẽ học Bách Khoa bố ạ, vì ở Bách Khoa chắc có nhiều bạn bè và vui lắm. Như bố mẹ và các cô chú ấy nhỉ, trông ai cũng cười thật tươi này.
 
 Lời nói đầy hồn nhiên của con bé làm An giật mình bừng tỉnh khỏi dòng hồi tưởng về những kí ức ngày xưa, vừa bế con lên anh vừa nói:
@@ -34,3 +42,4 @@ Trời chuyển dần về đêm, bé Tâm đã đi ngủ từ lâu, An ra ban c
 - Ừ, cũng lâu rồi không gặp được các bạn, không biết giờ thế nào rồi, anh mong tới ngày đó quá.
 
 Hoàng Lan không nói gì chỉ tựa đầu vào vai anh. Có lẽ cô cũng như anh, đang chìm vào chuỗi suy tưởng về những ký ức thời thanh xuân…
+`
