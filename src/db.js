@@ -1,5 +1,6 @@
 import c1 from './thoi-thanh-xuan-se-qua-1';
 import c2 from './thoi-thanh-xuan-se-qua-2';
+import c3 from './thoi-thanh-xuan-se-qua-3';
 
 const users = [
   {
@@ -11,6 +12,22 @@ const users = [
 ];
 
 const posts = [
+  {
+    slug: 'thoi-thanh-xuan-se-qua-3',
+    title: 'Thời thanh xuân sẽ qua',
+    caption: '#Chương 3: Đồi xanh thơm mát, những lá trà, trong lành hát những khúc ca, hương chiều quê, nghe lúa thơm tình ta…',
+    cover: '/img/posts/thoi-thanh-xuan-se-qua-2/cover.jpg',
+    publishedDate: 'Jun 11',
+    readingTime: '10 min read',
+    link: '/posts/thoi-thanh-xuan-se-qua-3',
+    content: c3,
+    author: users.find(user => user.username === 'nichibuxmeme'),
+    topic: {
+      name: 'Stories',
+      slug: 'stories',
+      link: '/topic/stories',
+    },
+  },
   {
     slug: 'thoi-thanh-xuan-se-qua-2',
     title: 'Thời thanh xuân sẽ qua',
@@ -46,6 +63,7 @@ const posts = [
 ];
 
 const populars = [
+  'thoi-thanh-xuan-se-qua-3',
   'thoi-thanh-xuan-se-qua-2',
   'thoi-thanh-xuan-se-qua-1',
 ];
