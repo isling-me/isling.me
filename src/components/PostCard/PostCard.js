@@ -1,17 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function PostCard(props) {
   const {
     title,
-    caption,
+    description,
     publishedDate,
     cover,
     readingTime,
     link,
     author,
-    topic,
+    topic
   } = props;
   return (
     <div className="postCard w-full">
@@ -22,16 +22,16 @@ function PostCard(props) {
               <div className="text-base lg:text-xl font-semibold mt-0 text-gray-900 line-height-100">
                 {title}
               </div>
-              <div
-                className="mt-1 text-gray-700 text-xs lg:text-base font-light line-height-120 lg:line-height-140">
-                {caption}
+              <div className="mt-1 text-gray-700 text-xs lg:text-base font-light line-height-120 lg:line-height-140">
+                {description}
               </div>
             </div>
             <div className="mt-1">
               <div className="text-xs lg:text-base my-0 -mt-1">
                 <Link
                   to={`${author.link}`}
-                  className="link hover:underline focus:underline">
+                  className="link hover:underline focus:underline"
+                >
                   {author.name}
                 </Link>
                 <div className="px-1 inline">in</div>
@@ -44,14 +44,16 @@ function PostCard(props) {
               </div>
               <div className="text-xs lg:text-sm font-light my-0 -mt-1 lg:-mt-1">
                 <time className="inline">{publishedDate}</time>
-                <div className="inline px-1 middotDivider text-xs font-semibold"/>
-                <div className="inline">{readingTime}</div>
+                <div className="inline px-1 middotDivider text-xs font-semibold" />
+                <div className="inline">{readingTime} read</div>
               </div>
             </div>
           </div>
           <div className="w-3/12">
-            <div className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
-                 style={{ backgroundImage: `url(${cover})` }}/>
+            <div
+              className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
+              style={{ backgroundImage: `url(${cover})` }}
+            />
           </div>
         </div>
       </Link>
@@ -61,19 +63,23 @@ function PostCard(props) {
 
 PostCard.propTypes = {
   title: PropTypes.string.isRequired,
-  caption: PropTypes.string,
+  description: PropTypes.string,
   publishedDate: PropTypes.string.isRequired,
   cover: PropTypes.string.isRequired,
   readingTime: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  author: PropTypes.objectOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  })).isRequired,
-  topic: PropTypes.objectOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  })).isRequired,
+  author: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  topic: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired
+    })
+  ).isRequired
 };
 
 export default PostCard;

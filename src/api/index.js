@@ -1,1 +1,1 @@
-export { getPosts, getPopular, getOnePost } from './posts'
+export { getPosts, getPopular, getOnePost, postsQuery } from './posts';

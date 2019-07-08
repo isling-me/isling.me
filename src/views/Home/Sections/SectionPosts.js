@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 // core components
 import PostCard from '../../../components/PostCard/PostCard';
@@ -10,9 +10,7 @@ function SectionPosts(prop) {
       <div className="lg:pr-6">
         {posts.map(p => (
           <div className="mb-6 lg:mb-12" key={p.slug}>
-            <PostCard
-              {...p}
-            />
+            <PostCard {...p} />
           </div>
         ))}
       </div>
@@ -21,7 +19,7 @@ function SectionPosts(prop) {
 }
 
 SectionPosts.propTypes = {
-  posts: PropTypes.array.isRequired,
+  posts: PropTypes.array.isRequired
 };
 
 export default SectionPosts;
