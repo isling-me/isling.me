@@ -1,71 +1,77 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import MarkDown from 'react-markdown';
 import { withRouter, Link } from 'react-router-dom';
+import { Query } from 'react-apollo';
 import NavBar from '../../components/NavBar/NavBar';
 import SideBar from '../../components/SideBar/SideBar';
-import { getOnePost } from '../../api';
+import { postQuery } from '../../graphql/post';
+import { makeUserUri } from '../../helpers/user';
+import { formatPublishedDate } from '../../helpers/post';
 
-function App({ match }) {
-  const { slug } = match.params;
-
-  const [post, setPost] = useState(null);
-
-  useEffect(() => {
-    // getDataBySlug
-    getOnePost(slug)
-      .then((res) => {
-        setPost((prev) => ({
-          ...prev,
-          ...res.data,
-        }));
-      })
-      .catch(e => {
-        alert(e.error.message);
-      });
-  }, [slug]);
+function Post({ match }) {
+  const { id } = match.params;
 
   return (
     <Fragment>
       <div className="lg:hidden">
-        <NavBar/>
+        <NavBar />
       </div>
       <div className="hidden lg:block">
-        <SideBar/>
+        <SideBar />
       </div>
       <div className="container m-auto">
         <div className="post m-auto">
-          {post && (
-            <div className="postContent px-6 lg:px-0">
-              <div className="title text-3xl lg:text-4xl pt-6 lg:pt-24 text-justify">
-                {post.title}
-              </div>
-              {/*<div className="pt-1 text-base text-gray-700">*/}
-              {/*  {post.caption}*/}
-              {/*</div>*/}
-              <div className="flex bg-white rounded-lg pt-8 pb-8 author items-center">
-                <img className="w-10 h-10 rounded-full mx-auto" alt="no description" src={post.author.avatar}/>
-                <div className="text-left flex-1 pl-2">
-                  <Link to={post.author.link}>
-                    <div className="leading-tight">
-                      {post.author.name}
-                    </div>
-                  </Link>
-                  <div className="info">
-                    <div className="text-gray-600 text-xs leading-tight inline">
-                      {post.publishedDate}
+          <Query query={postQuery} variables={{ postId: id }}>
+            {({ loading, error, data }) => {
+              if (loading) {
+                return <div>Loading...</div>;
+              }
+
+              if (error) {
+                return <div>Error</div>;
+              }
+
+              const { post } = data;
+              return (
+                <div className="postContent px-6 lg:px-0">
+                  <div className="title text-3xl lg:text-4xl pt-6 lg:pt-24 text-justify">
+                    {post.title}
+                  </div>
+                  {/*<div className="pt-1 text-base text-gray-700">*/}
+                  {/*  {post.caption}*/}
+                  {/*</div>*/}
+                  <div className="flex bg-white rounded-lg pt-8 pb-8 author items-center">
+                    <img
+                      className="w-10 h-10 rounded-full mx-auto"
+                      alt="avatar"
+                      src={post.author.profile.avatar}
+                    />
+                    <div className="text-left flex-1 pl-2">
+                      <Link
+                        to={makeUserUri(post.author.id, post.author.username)}
+                      >
+                        <div className="leading-tight">
+                          {post.author.profile.name}
+                        </div>
+                      </Link>
+                      <div className="info">
+                        <div className="text-gray-600 text-xs leading-tight inline">
+                          {formatPublishedDate(post.publishedDate)}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <div className="markdown text-justify text-base">
+                    <MarkDown source={post.content.text} />
+                  </div>
                 </div>
-              </div>
-              <div className="markdown text-justify text-base">
-                <MarkDown source={post.content || ''}/>
-              </div>
-            </div>
-          )}
+              );
+            }}
+          </Query>
         </div>
       </div>
     </Fragment>
   );
 }
 
-export default withRouter(App);
+export default withRouter(Post);
