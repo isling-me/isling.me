@@ -41,11 +41,51 @@ export const postQuery = gql`
         username
         profile {
           name
+          avatar
         }
       }
       topic {
         name
         slug
+      }
+    }
+  }
+`;
+
+export const createPostMutation = gql`
+  mutation createPostMutation($title: String, $text: String) {
+    createPost(data: { title: $title, content: { text: $text } }) {
+      id
+      title
+      content {
+        text
+      }
+    }
+  }
+`;
+
+export const updatePostContentOnlyMutation = gql`
+  mutation updatePostContentOnlyMutation(
+    $title: String
+    $text: String
+    $id: ID!
+  ) {
+    updatePost(id: $id, data: { title: $title, content: { text: $text } }) {
+      id
+      title
+      content {
+        text
+      }
+    }
+  }
+`;
+
+export const postContentOnlyQuery = gql`
+  query postContentOnlyQuery($id: ID!) {
+    ownPost(id: $id) {
+      title
+      content {
+        text
       }
     }
   }

@@ -1,11 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar/NavBar';
 import SideBar from '../../components/SideBar/SideBar';
-import { createPostMutation } from '../../graphql/post';
+import {
+  updatePostContentOnlyMutation,
+  postContentOnlyQuery
+} from '../../graphql/post';
 import 'medium-editor/dist/css/medium-editor.min.css';
 import 'medium-editor/dist/css/themes/default.min.css';
 import Editor from 'react-medium-editor';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { stripHtml } from '../../helpers/utils';
 import { withRouter } from 'react-router-dom';
 
@@ -42,18 +45,28 @@ const titleEditorOptions = {
   }
 };
 
-function NewPost({ history }) {
+function PostEditor({ match }) {
+  const { id } = match.params;
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [id, setId] = useState('');
   const handleChangeText = newText => setText(newText);
   const handleChangeTitle = newTitle => setTitle(stripHtml(newTitle));
-  const [createPost, { loading, data, error }] = useMutation(
-    createPostMutation,
+  const [updatePost, { loading, error }] = useMutation(
+    updatePostContentOnlyMutation,
     {
-      variables: { title, text }
+      variables: { title, text, id }
     }
   );
+  const feedPostRes = useQuery(postContentOnlyQuery, {
+    variables: { id }
+  });
+
+  useEffect(() => {
+    if (feedPostRes.data.ownPost) {
+      handleChangeText(feedPostRes.data.ownPost.content.text);
+      handleChangeTitle(feedPostRes.data.ownPost.title);
+    }
+  }, [feedPostRes.data.ownPost]);
 
   useEffect(() => {
     const save = () => {
@@ -62,27 +75,14 @@ function NewPost({ history }) {
         return;
       }
 
-      if (!id) {
-        console.log('[c] Create story. Title:', title, 'Content:', text);
-        if (text !== '' || title !== '') {
-          createPost();
-        }
-      } else {
-        console.log('[u] Update story');
-      }
+      updatePost();
+      console.log('[u] Update story');
     };
 
-    const saveJobId = setInterval(save, 3000);
+    const saveJobId = setInterval(save, 10000);
 
     return () => clearInterval(saveJobId);
-  }, [createPost, error, id, loading, text, title]);
-
-  useEffect(() => {
-    if (data && typeof data.createPost.id === 'string') {
-      setId(data.createPost.id);
-      history.push(`/p/${data.createPost.id}/edit`);
-    }
-  }, [data, history]);
+  }, [updatePost, error, loading, text, title]);
 
   return (
     <Fragment>
@@ -116,4 +116,4 @@ function NewPost({ history }) {
   );
 }
 
-export default withRouter(NewPost);
+export default withRouter(PostEditor);
