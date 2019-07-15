@@ -7527,11 +7527,11 @@ body {
   color: #1a202c;
 }
 
-.container::after {
+/* .container::after {
   content: '.';
   padding-bottom: 4rem;
   opacity: 0;
-}
+} */
 
 @media (min-width: 640px) {
   .container {
@@ -7960,28 +7960,109 @@ p.markdown {
   display: block;
 }
 
-.sideBar .brand .text {
+.brand .text {
   text-transform: uppercase;
   margin-left: -20px;
   opacity: 0;
   transition: opacity 0.8s, margin-left 1s;
 }
 
-.sideBar .brand img {
+.brand img {
   transition: 0.8s;
 }
 
-.sideBar .brand:hover .text {
+.brand:hover .text {
   margin-left: 0.4rem;
   opacity: 1;
 }
 
-.sideBar .brand:hover img {
+.brand:hover img {
   margin-left: -0.3rem;
 }
 
 .middotDivider:after {
   content: '\00B7';
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown-content-center {
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.dropdown-content::after {
+  content: ' ';
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -6px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  display: block;
+  box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.54);
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.dropdown-content::before {
+  content: ' ';
+  height: 35px;
+  background-color: transparent;
+  bottom: 100%;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.btn {
+  font-weight: 700;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.25rem;
+}
+
+.btn-pill {
+  border-radius: 9999px;
+}
+
+.btn-outline {
+  background-color: transparent;
+  font-weight: 600;
+  border-width: 1px;
+  border-color: #4299e1;
+  color: #2b6cb0;
+}
+
+.btn-outline:hover {
+  border-color: transparent;
+  background-color: #4299e1;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #4299e1;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #2b6cb0;
+  color: #fff;
 }
 
 @media (min-width: 640px) {

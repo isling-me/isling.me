@@ -6,9 +6,11 @@ import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
 import './assets/css/index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { getAuthToken } from './helpers/auth';
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -24,7 +26,17 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:4000'
 });
 
-const link = ApolloLink.from([errorLink, httpLink]);
+const authLink = setContext((_, { headers }) => {
+  const token = getAuthToken();
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+});
+
+const link = ApolloLink.from([authLink, errorLink, httpLink]);
 
 const client = new ApolloClient({
   link,

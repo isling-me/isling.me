@@ -8,16 +8,18 @@ function SideBar() {
         <div className="brand inline-block">
           <Link to="/">
             <div className="flex items-center">
-              <img className="rounded-b-full w-10 h-10" src="/logo.jpg" alt="ISLING"/>
-              <div className="text text-xl font-bold text-gray-900">
-                isling
-              </div>
+              <img
+                className="rounded-b-full w-10 h-10"
+                src="/logo.jpg"
+                alt="ISLING"
+              />
+              <div className="text text-xl font-bold text-gray-900">isling</div>
             </div>
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default SideBar;

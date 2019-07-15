@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { makeUserUri } from './user';
+import { makeTopicUri } from './topic';
 
 export const formatPublishedDate = date => {
   const dateObj = date instanceof Date ? date : new Date(date);
@@ -11,3 +13,25 @@ export const formatPublishedDate = date => {
 };
 
 export const makePostUri = (slug, id) => `/posts/${slug}/${id}`;
+
+const rootTopic = {
+  name: 'Root',
+  link: '/'
+};
+
+export const formatPostForCard = p => ({
+  ...p,
+  link: makePostUri(p.slug, p.id),
+  author: {
+    name: p.author.profile.name,
+    link: makeUserUri(p.author.id, p.author.username)
+  },
+  topic: p.topic
+    ? {
+        name: p.topic.name,
+        link: makeTopicUri(p.topic.slug)
+      }
+    : rootTopic,
+  readingTime: `${p.readingTime} min`,
+  publishedDate: formatPublishedDate(new Date(p.publishedDate))
+});

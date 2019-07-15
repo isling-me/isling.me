@@ -64,13 +64,13 @@ export const createPostMutation = gql`
   }
 `;
 
-export const updatePostContentOnlyMutation = gql`
-  mutation updatePostContentOnlyMutation(
+export const updatePostContentMutation = gql`
+  mutation updatePostContentMutation(
     $title: String
     $text: String
-    $id: ID!
+    $postId: ID!
   ) {
-    updatePost(id: $id, data: { title: $title, content: { text: $text } }) {
+    updatePost(id: $postId, data: { title: $title, content: { text: $text } }) {
       id
       title
       content {
@@ -80,9 +80,9 @@ export const updatePostContentOnlyMutation = gql`
   }
 `;
 
-export const postContentOnlyQuery = gql`
-  query postContentOnlyQuery($id: ID!) {
-    ownPost(id: $id) {
+export const ownPostContentQuery = gql`
+  query ownPostContentQuery($postId: ID!) {
+    ownPost(id: $postId) {
       title
       content {
         text

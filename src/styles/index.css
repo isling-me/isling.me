@@ -16,11 +16,11 @@ body {
   @apply text-gray-900;
 }
 
-.container::after {
+/* .container::after {
   content: '.';
   padding-bottom: 4rem;
   opacity: 0;
-}
+} */
 
 @screen sm {
   .container {
@@ -424,26 +424,94 @@ p.markdown {
   display: block;
 }
 
-.sideBar .brand .text {
+.brand .text {
   text-transform: uppercase;
   margin-left: -20px;
   opacity: 0;
   transition: opacity 0.8s, margin-left 1s;
 }
 
-.sideBar .brand img {
+.brand img {
   transition: 0.8s;
 }
 
-.sideBar .brand:hover .text {
+.brand:hover .text {
   margin-left: 0.4rem;
   opacity: 1;
 }
 
-.sideBar .brand:hover img {
+.brand:hover img {
   margin-left: -0.3rem;
 }
 
 .middotDivider:after {
   content: '\00B7';
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown-content-center {
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.dropdown-content::after {
+  content: ' ';
+  position: absolute;
+  bottom: 100%; /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -6px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  display: block;
+  box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.54);
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.dropdown-content::before {
+  content: ' ';
+  height: 35px;
+  background-color: transparent;
+  bottom: 100%;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+
+.btn-pill {
+  @apply rounded-full;
+}
+
+.btn-outline {
+  @apply bg-transparent font-semibold border border-blue-500 text-blue-700;
+}
+
+.btn-outline:hover {
+  @apply border-transparent bg-blue-500 text-white;
+}
+
+.btn-primary {
+  @apply bg-blue-500 text-white;
+}
+
+.btn-primary:hover {
+  @apply bg-blue-700 text-white;
 }

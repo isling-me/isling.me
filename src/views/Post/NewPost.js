@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import NavBar from '../../components/NavBar/NavBar';
-import SideBar from '../../components/SideBar/SideBar';
-import { createPostMutation } from '../../graphql/post';
+import Header from '../Header/Header';
+import { createPostMutation, ownPostContentQuery } from '../../graphql/post';
 import 'medium-editor/dist/css/medium-editor.min.css';
 import 'medium-editor/dist/css/themes/default.min.css';
 import Editor from 'react-medium-editor';
@@ -46,36 +46,53 @@ function NewPost({ history }) {
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [id, setId] = useState('');
-  const handleChangeText = newText => setText(newText);
-  const handleChangeTitle = newTitle => setTitle(stripHtml(newTitle));
   const [createPost, { loading, data, error }] = useMutation(
     createPostMutation,
     {
-      variables: { title, text }
+      variables: { title, text },
+      update(
+        cache,
+        {
+          data: { createPost }
+        }
+      ) {
+        cache.writeQuery({
+          query: ownPostContentQuery,
+          variables: { postId: createPost.id },
+          data: { ownPost: createPost }
+        });
+      }
     }
   );
+  const ref = useRef({});
 
-  useEffect(() => {
-    const save = () => {
-      if (loading || error) {
-        console.log('[x] Loading or error');
-        return;
+  const save = () => {
+    if (loading || error) {
+      return;
+    }
+    if (!id) {
+      if (text !== '' || title !== '') {
+        createPost();
       }
+    }
+  };
 
-      if (!id) {
-        console.log('[c] Create story. Title:', title, 'Content:', text);
-        if (text !== '' || title !== '') {
-          createPost();
-        }
-      } else {
-        console.log('[u] Update story');
-      }
-    };
+  const saveJob = () => {
+    if (ref.current.jobId) {
+      clearTimeout(ref.current.jobId);
+    }
+    ref.current.jobId = setTimeout(save, 3000);
+  };
 
-    const saveJobId = setInterval(save, 3000);
+  const handleChangeText = newText => {
+    saveJob();
+    setText(newText);
+  };
 
-    return () => clearInterval(saveJobId);
-  }, [createPost, error, id, loading, text, title]);
+  const handleChangeTitle = newTitle => {
+    saveJob();
+    setTitle(stripHtml(newTitle));
+  };
 
   useEffect(() => {
     if (data && typeof data.createPost.id === 'string') {
@@ -90,7 +107,14 @@ function NewPost({ history }) {
         <NavBar />
       </div>
       <div className="hidden lg:block">
-        <SideBar />
+        <Header
+          leftChild={
+            <Fragment>
+              {!data && 'Draft'}
+              {loading && 'Saving...'}
+            </Fragment>
+          }
+        />
       </div>
       <div className="container m-auto">
         <div className="post m-auto">
@@ -107,8 +131,6 @@ function NewPost({ history }) {
               onChange={handleChangeText}
               options={textEditorOptions}
             />
-            {loading && <div>Saving...</div>}
-            {!loading && id && <div>Saved. ID: {id}</div>}
           </div>
         </div>
       </div>

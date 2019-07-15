@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from 'classnames';
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import Drawer from "@material-ui/core/Drawer";
+import withStyles from '@material-ui/core/styles/withStyles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@material-ui/core/Drawer';
 // @material-ui/icons
-import Menu from "@material-ui/icons/Menu";
+import Menu from '@material-ui/icons/Menu';
 // core components
-import headerStyle from "assets/jss/material-kit-react/components/headerStyle.jsx";
+import headerStyle from 'assets/jss/material-kit-react/components/headerStyle.jsx';
+import { NavLink } from 'react-router-dom';
 
 class Header extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Header extends React.Component {
       mobileOpen: false,
       fixOnScroll: false,
       prevBackgroundColor: props.color,
-      isChangedColor: false,
+      isChangedColor: false
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.headerColorChange = this.headerColorChange.bind(this);
@@ -35,7 +35,7 @@ class Header extends React.Component {
 
   componentDidMount() {
     if (this.props.changeColorOnScroll) {
-      window.addEventListener("scroll", this.headerColorChange);
+      window.addEventListener('scroll', this.headerColorChange);
     }
   }
 
@@ -60,36 +60,36 @@ class Header extends React.Component {
       }
 
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.remove(classes[this.state.prevBackgroundColor]);
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.add(classes[realColor]);
       this.setState({ prevBackgroundColor: realColor });
     } else if (windowsScrollTop > changeColorOnScroll.height) {
       this.setState({ fixedOnScroll: true });
       this.setState({ isChangedColor: true });
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.remove(classes[color]);
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.add(classes[changeColorOnScroll.color]);
     } else {
       this.setState({ isChangedColor: false });
       this.setState({ fixedOnScroll: false });
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.add(classes[color]);
       document.body
-        .getElementsByTagName("header")[0]
+        .getElementsByTagName('header')[0]
         .classList.remove(classes[changeColorOnScroll.color]);
     }
   }
 
   componentWillUnmount() {
     if (this.props.changeColorOnScroll) {
-      window.removeEventListener("scroll", this.headerColorChange);
+      window.removeEventListener('scroll', this.headerColorChange);
     }
   }
 
@@ -108,9 +108,13 @@ class Header extends React.Component {
       [classes.appBar]: true,
       [classes[color]]: color,
       [classes.absolute]: absolute,
-      [classes.fixed]: fixed || (fixedOnScroll && this.state.fixedOnScroll),
+      [classes.fixed]: fixed || (fixedOnScroll && this.state.fixedOnScroll)
     });
-    const brandComponent = <Button className={classes.title} href="/">{brand}</Button>;
+    const brandComponent = (
+      <NavLink className={classes.title} to="/">
+        {brand}
+      </NavLink>
+    );
     return (
       <AppBar className={appBarClasses}>
         <Toolbar className={classes.container}>
@@ -125,10 +129,12 @@ class Header extends React.Component {
             )}
           </div>
           <Hidden smDown implementation="css">
-            {typeof rightLinks === 'function' ?
-              rightLinks({ ...this.props, isChangedColor: this.state.isChangedColor })
-              : rightLinks
-            }
+            {typeof rightLinks === 'function'
+              ? rightLinks({
+                  ...this.props,
+                  isChangedColor: this.state.isChangedColor
+                })
+              : rightLinks}
           </Hidden>
           <Hidden mdUp>
             <IconButton
@@ -136,14 +142,14 @@ class Header extends React.Component {
               aria-label="open drawer"
               onClick={this.handleDrawerToggle}
             >
-              <Menu/>
+              <Menu />
             </IconButton>
           </Hidden>
         </Toolbar>
         <Hidden mdUp implementation="css">
           <Drawer
             variant="temporary"
-            anchor={"right"}
+            anchor={'right'}
             open={this.state.mobileOpen}
             classes={{
               paper: classes.drawerPaper
@@ -162,22 +168,22 @@ class Header extends React.Component {
 }
 
 Header.defaultProp = {
-  color: "white"
+  color: 'white'
 };
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf([
-    "primary",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "transparent",
-    "transparentDark",
-    "white",
-    "rose",
-    "dark"
+    'primary',
+    'info',
+    'success',
+    'warning',
+    'danger',
+    'transparent',
+    'transparentDark',
+    'white',
+    'rose',
+    'dark'
   ]),
   rightLinks: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   leftLinks: PropTypes.node,
@@ -196,15 +202,15 @@ Header.propTypes = {
     toHeight: PropTypes.number,
     colorDependHeight: PropTypes.bool,
     color: PropTypes.oneOf([
-      "primary",
-      "info",
-      "success",
-      "warning",
-      "danger",
-      "transparent",
-      "white",
-      "rose",
-      "dark"
+      'primary',
+      'info',
+      'success',
+      'warning',
+      'danger',
+      'transparent',
+      'white',
+      'rose',
+      'dark'
     ]).isRequired
   })
 };
