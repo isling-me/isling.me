@@ -13,7 +13,11 @@ html {
 body {
   font-size: 1rem;
   line-height: 1.625;
-  @apply text-gray-900;
+  @apply text-gray-900 overflow-auto;
+}
+
+.root {
+  @apply w-full;
 }
 
 /* .container::after {
@@ -117,9 +121,32 @@ h3,
 h4,
 h5,
 h6 {
-  @apply text-base;
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  @apply text-3xl font-bold;
+}
+
+h2 {
+  @apply text-2xl font-semibold;
+}
+
+h3 {
+  @apply text-xl font-semibold;
+}
+
+h4 {
+  @apply text-lg font-semibold;
+}
+
+h5 {
+  @apply text-base font-semibold;
+}
+
+h6 {
+  @apply text-xs font-semibold;
 }
 
 .markdown {
@@ -490,6 +517,18 @@ p.markdown {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.btn-base {
+  @apply outline-none;
+}
+
+.btn-base:hover {
+  @apply underline;
+}
+
+.btn-base:disabled {
+  @apply text-gray-600 cursor-default;
 }
 
 .btn {

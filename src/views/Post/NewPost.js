@@ -102,7 +102,7 @@ function NewPost({ history }) {
   }, [data, history]);
 
   return (
-    <Fragment>
+    <div className="root">
       <div className="lg:hidden">
         <NavBar />
       </div>
@@ -134,7 +134,7 @@ function NewPost({ history }) {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

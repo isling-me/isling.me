@@ -7525,6 +7525,11 @@ body {
   font-size: 1rem;
   line-height: 1.625;
   color: #1a202c;
+  overflow: auto;
+}
+
+.root {
+  width: 100%;
 }
 
 /* .container::after {
@@ -7626,9 +7631,38 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 1rem;
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .markdown {
@@ -8026,6 +8060,19 @@ p.markdown {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.btn-base {
+  outline: 0;
+}
+
+.btn-base:hover {
+  text-decoration: underline;
+}
+
+.btn-base:disabled {
+  color: #718096;
+  cursor: default;
 }
 
 .btn {

@@ -13,3 +13,27 @@ export const currentUserQuery = gql`
     }
   }
 `;
+
+export const ownPostsQuery = gql`
+  query ownPostsQuery(
+    $state: PostState = DRAFT
+    $page: PageInput!
+    $orderBy: PostOrderByInput = updatedAt_DESC
+  ) {
+    me {
+      posts(state: $state, page: $page, orderBy: $orderBy) {
+        total
+        items {
+          id
+          slug
+          title
+          content {
+            text
+          }
+          updatedAt
+          publishedDate
+        }
+      }
+    }
+  }
+`;

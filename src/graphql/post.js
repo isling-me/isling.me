@@ -2,13 +2,14 @@ import gql from 'graphql-tag';
 
 export const postsQuery = gql`
   {
-    posts(page: { first: 8 }) {
+    posts(page: { first: 8 }, orderBy: publishedDate_DESC) {
       total
       items {
         id
         title
         slug
         description
+        preview
         publishedDate
         readingTime
         topic {
@@ -22,6 +23,29 @@ export const postsQuery = gql`
             name
           }
         }
+      }
+    }
+  }
+`;
+
+export const popularPostsQuery = gql`
+  query popularPostsQuery {
+    popularPosts {
+      id
+      slug
+      title
+      author {
+        username
+        id
+        profile {
+          name
+        }
+      }
+      publishedDate
+      readingTime
+      topic {
+        slug
+        name
       }
     }
   }
@@ -87,6 +111,54 @@ export const ownPostContentQuery = gql`
       content {
         text
       }
+      description
+      preview
+      topic {
+        id
+        name
+      }
+      state
+      publishedDate
+    }
+  }
+`;
+
+export const publishPostMutation = gql`
+  mutation publishPostMutation(
+    $postId: ID!
+    $preview: String
+    $description: String
+    $topic: ID
+  ) {
+    updatePost(
+      id: $postId
+      data: {
+        preview: $preview
+        description: $description
+        topic: $topic
+        state: PUBLISHED
+      }
+    ) {
+      id
+      slug
+    }
+  }
+`;
+
+export const unpublishPostMutation = gql`
+  mutation publishPostMutation($postId: ID!) {
+    updatePost(id: $postId, data: { state: DRAFT }) {
+      id
+      slug
+    }
+  }
+`;
+
+export const deletePostMutation = gql`
+  mutation deletePostMutation($postId: ID!) {
+    deletePost(id: $postId) {
+      status
+      message
     }
   }
 `;

@@ -15,7 +15,7 @@ export const formatPublishedDate = date => {
 export const makePostUri = (slug, id) => `/posts/${slug}/${id}`;
 
 const rootTopic = {
-  name: 'Root',
+  name: 'Random',
   link: '/'
 };
 

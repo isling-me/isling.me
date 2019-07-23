@@ -5,13 +5,12 @@ import { formatPostForCard } from '../../../helpers/post';
 import { useQuery } from '@apollo/react-hooks';
 
 function SectionPosts() {
-  const { loading, error, data } = useQuery(postsQuery);
+  const { loading, error, data = {} } = useQuery(postsQuery);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     if (data.posts) {
       const newPosts = data.posts.items.map(formatPostForCard);
-
       setPosts(prevPosts => [...prevPosts, ...newPosts]);
     }
   }, [data.posts]);
@@ -29,7 +28,7 @@ function SectionPosts() {
           }
 
           return posts.map(p => (
-            <div className="mb-6 lg:mb-12" key={p.slug}>
+            <div className="mb-6 lg:mb-12" key={`${p.slug}-${p.id}`}>
               <PostCard {...p} />
             </div>
           ));

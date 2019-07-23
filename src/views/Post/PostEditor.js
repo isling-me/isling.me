@@ -10,7 +10,8 @@ import 'medium-editor/dist/css/themes/default.min.css';
 import Editor from 'react-medium-editor';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { stripHtml } from '../../helpers/utils';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import PostPublishDialog from './PostPublish';
 
 const textEditorOptions = {
   placeholder: {
@@ -50,21 +51,19 @@ function PostEditor({ match }) {
   const ref = useRef({});
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
+  const [post, setPost] = useState({});
+  const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [updatePost, { loading, error }] = useMutation(
     updatePostContentMutation,
     {
       variables: { title, text, postId: id },
-      update(
-        cache,
-        {
-          data: { updatePost }
-        }
-      ) {
-        cache.writeQuery({
-          query: ownPostContentQuery,
-          variables: { postId: updatePost.id },
-          data: { ownPost: updatePost }
-        });
+      refetchQueries({ data: { updatePost } }) {
+        return [
+          {
+            query: ownPostContentQuery,
+            variables: { postId: updatePost.id }
+          }
+        ];
       }
     }
   );
@@ -97,13 +96,23 @@ function PostEditor({ match }) {
     variables: { postId: id }
   });
 
+  const onClosePublishDialog = () => {
+    setOpenPublishDialog(false);
+  };
+
+  const onOpenPublishDialog = () => {
+    setOpenPublishDialog(true);
+  };
+
   useEffect(() => {
     if (feedPostRes.data.ownPost && title === '' && text === '') {
       const { ownPost } = feedPostRes.data;
       setText(ownPost.content.text);
       setTitle(ownPost.title);
+      setPost(ownPost);
     }
-  }, [feedPostRes.data, text, title]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feedPostRes.data]);
 
   useEffect(() => {
     return () => updatePost();
@@ -111,7 +120,7 @@ function PostEditor({ match }) {
   }, []);
 
   return (
-    <Fragment>
+    <div className="root">
       <div className="lg:hidden">
         <NavBar />
       </div>
@@ -122,13 +131,29 @@ function PostEditor({ match }) {
               {!loading && 'Saved'}
               {loading && 'Saving...'}
               <div className="flex-1" />
-              <NavLink className="btn btn-pill" to={`/p/${id}/publish`}>
-                Publish this post
-              </NavLink>
+              <button
+                className="btn btn-pill btn-primary"
+                onClick={onOpenPublishDialog}
+              >
+                {post.state === 'PUBLISHED'
+                  ? 'Edit preview, description, topic'
+                  : 'Publish this post'}
+              </button>
             </div>
           }
         />
       </div>
+
+      <PostPublishDialog
+        openDialog={openPublishDialog}
+        onCloseDialog={onClosePublishDialog}
+        post={{
+          ...post,
+          id,
+          title
+        }}
+      />
+
       <div className="container m-auto">
         <div className="post m-auto">
           <div className="postContent px-6 lg:px-0 pt-6 lg:pt-24">
@@ -157,7 +182,7 @@ function PostEditor({ match }) {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

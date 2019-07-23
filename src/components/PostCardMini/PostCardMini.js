@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function PostCardMini(props) {
@@ -10,14 +10,14 @@ function PostCardMini(props) {
     readingTime,
     link,
     author,
-    topic,
+    topic
   } = props;
   return (
     <div className="flex-grow">
       <Link to={link}>
         <div className="flex">
           <div className="mr-3">
-            <h4 className="text-5xl text-gray-300 leading-none">
+            <h4 className="text-5xl font-normal text-gray-300 leading-none">
               {index}
             </h4>
           </div>
@@ -41,7 +41,7 @@ function PostCardMini(props) {
               </div>
               <div className="text-xs font-light">
                 <time className="inline">{publishedDate}</time>
-                <div className="middotDivider px-1 inline"/>
+                <div className="middotDivider px-1 inline" />
                 <div className="inline">{readingTime}</div>
               </div>
             </div>
@@ -58,14 +58,14 @@ PostCardMini.propTypes = {
   publishedDate: PropTypes.string.isRequired,
   readingTime: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  author: PropTypes.objectOf(PropTypes.shape({
+  author: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  })).isRequired,
-  topic: PropTypes.objectOf(PropTypes.shape({
+    link: PropTypes.string.isRequired
+  }).isRequired,
+  topic: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  })).isRequired,
+    link: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default PostCardMini;

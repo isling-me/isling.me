@@ -7,7 +7,7 @@ function PostCard(props) {
     title,
     description,
     publishedDate,
-    cover,
+    preview,
     readingTime,
     link,
     author,
@@ -52,7 +52,7 @@ function PostCard(props) {
           <div className="w-3/12">
             <div
               className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
-              style={{ backgroundImage: `url(${cover})` }}
+              style={{ backgroundImage: `url(${preview})` }}
             />
           </div>
         </div>
@@ -65,21 +65,17 @@ PostCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   publishedDate: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
+  preview: PropTypes.string,
   readingTime: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  author: PropTypes.objectOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  topic: PropTypes.objectOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired
-    })
-  ).isRequired
+  author: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired
+  }).isRequired,
+  topic: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default PostCard;

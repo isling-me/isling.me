@@ -16,15 +16,15 @@ function Post({ match }) {
   });
 
   return (
-    <Fragment>
+    <div className="root">
       <div className="lg:hidden">
         <NavBar />
       </div>
       <div className="hidden lg:block">
         <Header />
       </div>
-      <div className="container m-auto">
-        <div className="post m-auto">
+      <div className="container mx-auto pb-24">
+        <div className="post mx-auto">
           <div className="postContent px-6 lg:px-0 pt-6 lg:pt-24">
             {(() => {
               if (loading) {
@@ -75,7 +75,7 @@ function Post({ match }) {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

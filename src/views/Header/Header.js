@@ -9,23 +9,25 @@ function MyHeader({ leftChild }) {
   if (login) {
     return (
       <AppBar border>
-        <div className="brand inline-block">
+        <div className="inline-block">
           <NavLink to="/">
             <div className="flex items-center">
               <img
-                className="rounded-b-full w-8 h-8"
+                className="rounded-b-full w-8 h-8 block"
                 src="/logo.jpg"
                 alt="ISLING"
               />
-              <div className="text text-xl font-bold text-gray-900">isling</div>
+              <div className="uppercase ml-2 text-xl font-bold text-gray-900">
+                isling
+              </div>
             </div>
           </NavLink>
         </div>
-        <div className="flex-1">{leftChild}</div>
-        <div className="justify-end">
+        <div className="flex-1 pl-4">{leftChild}</div>
+        <div className="justify-end block">
           <div className="dropdown cursor-pointer">
             <img
-              className="rounded-full w-8 h-8"
+              className="rounded-full w-8 h-8 block"
               src={currentUser.profile.avatar}
               alt={currentUser.profile.name}
             />
