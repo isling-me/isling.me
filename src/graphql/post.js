@@ -97,6 +97,8 @@ export const updatePostContentMutation = gql`
     updatePost(id: $postId, data: { title: $title, content: { text: $text } }) {
       id
       title
+      slug
+      updatedAt
       content {
         text
       }
@@ -111,14 +113,7 @@ export const ownPostContentQuery = gql`
       content {
         text
       }
-      description
-      preview
-      topic {
-        id
-        name
-      }
       state
-      publishedDate
     }
   }
 `;
@@ -140,7 +135,20 @@ export const publishPostMutation = gql`
       }
     ) {
       id
+      title
       slug
+      content {
+        text
+      }
+      topic {
+        id
+        name
+        slug
+      }
+      state
+      description
+      publishedDate
+      preview
     }
   }
 `;
@@ -150,6 +158,8 @@ export const unpublishPostMutation = gql`
     updatePost(id: $postId, data: { state: DRAFT }) {
       id
       slug
+      state
+      publishedDate
     }
   }
 `;

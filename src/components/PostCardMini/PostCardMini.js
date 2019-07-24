@@ -22,7 +22,7 @@ function PostCardMini(props) {
             </h4>
           </div>
           <div className="flex-1">
-            <div className="font-semibold text-base">{title}</div>
+            <div className="font-semibold text-base text-gray-900">{title}</div>
             <div className="pt-0">
               <div className="text-sm">
                 <Link

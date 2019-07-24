@@ -42,7 +42,7 @@ function PostCard(props) {
                   {topic.name}
                 </Link>
               </div>
-              <div className="text-xs lg:text-sm font-light my-0 -mt-1 lg:-mt-1">
+              <div className="text-xs lg:text-sm font-light my-0">
                 <time className="inline">{publishedDate}</time>
                 <div className="inline px-1 middotDivider text-xs font-semibold" />
                 <div className="inline">{readingTime}</div>

@@ -1,26 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import SectionPosts from './Sections/SectionPosts';
 import SectionPopular from './Sections/SectionPopular';
-import { getPopular } from '../../api';
 import Header from '../Header/Header';
 
 function Home() {
-  const [state, setState] = useState({
-    populars: []
-  });
-
-  useEffect(() => {
-    getPopular().then(res => {
-      setState(prev => ({
-        ...prev,
-        populars: res.data.items
-      }));
-    });
-
-    return () => {};
-  }, []);
-
   return (
     <div className="root">
       <div className="hidden lg:block">
@@ -33,7 +17,7 @@ function Home() {
               <SectionPosts />
             </div>
             <div className="lg:w-4/12 hidden lg:block absolute top-0 right-0">
-              <SectionPopular posts={state.populars} />
+              <SectionPopular />
             </div>
           </div>
         </div>
