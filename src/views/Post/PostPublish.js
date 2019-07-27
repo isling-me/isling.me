@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
 import { topicsSearchQuery } from '../../graphql/topic';
-import { publishPostMutation, ownPostContentQuery } from '../../graphql/post';
+import {
+  publishPostMutation,
+  postQuery,
+  ownPostPreviewQuery
+} from '../../graphql/post';
 import useUploadFile from '../../hooks/useUploadFile';
 import FullScreenDialog from '../../components/Dialog/FullScreenDialog';
 import { makePostUri } from '../../helpers/post';
@@ -31,17 +35,31 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
       setPostLink(true);
       setTimeout(
         () => history.push(makePostUri(updatePost.slug, updatePost.id)),
-        1500
+        1000
       );
     },
-    refetchQueries() {
-      return [
-        {
-          query: ownPostContentQuery,
-          variables: { postId: post.id }
+    update(
+      cache,
+      {
+        data: { updatePost }
+      }
+    ) {
+      cache.writeQuery({
+        query: postQuery,
+        variables: { postId: updatePost.id },
+        data: {
+          post: {
+            ...updatePost
+          }
         }
-      ];
+      });
+    },
+    refetchQueries() {
+      return ['postsQuery', 'ownPostsDraftQuery', 'ownPostsPublishedQuery'];
     }
+  });
+  const { refetch: fetchPublishInfo } = useQuery(ownPostPreviewQuery, {
+    variables: { postId: post.id }
   });
 
   const onChangeDescription = newDes => {
@@ -97,10 +115,13 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
   };
 
   useEffect(() => {
-    setDescription(post.description || '');
-    setPreview(post.preview || '');
-    setTopic(post.topic || topicRandom);
-  }, [post]);
+    fetchPublishInfo().then(({ data: { ownPost: post } }) => {
+      setDescription(post.description || '');
+      setPreview(post.preview || '');
+      setTopic(post.topic || topicRandom);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FullScreenDialog visible={openDialog} onClose={onCloseDialog}>
@@ -186,18 +207,16 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
               </div>
             )}
           </div>
-          <div className="pt-4">
+          <div className="pt-4 flex items-center">
             <button
               className="btn btn-pill btn-primary"
               disabled={uploading}
-              onClick={publishPost}
+              onClick={() => publishPost()}
             >
               {post.state === 'PUBLISHED' ? 'Save' : 'Publish now'}
             </button>
-          </div>
-          <div className="mt-4">
             {postLink && (
-              <p className="font-bold">Redirect to post's page...</p>
+              <p className="font-bold pl-4">Redirect to post's page...</p>
             )}
           </div>
         </div>

@@ -1,7 +1,11 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import NavBar from '../../components/NavBar/NavBar';
 import Header from '../Header/Header';
-import { createPostMutation, ownPostContentQuery } from '../../graphql/post';
+import {
+  createPostMutation,
+  ownPostContentQuery,
+  ownPostPreviewQuery
+} from '../../graphql/post';
 import 'medium-editor/dist/css/medium-editor.min.css';
 import 'medium-editor/dist/css/themes/default.min.css';
 import Editor from 'react-medium-editor';
@@ -61,6 +65,21 @@ function NewPost({ history }) {
           variables: { postId: createPost.id },
           data: { ownPost: createPost }
         });
+        cache.writeQuery({
+          query: ownPostPreviewQuery,
+          variables: { postId: createPost.id },
+          data: {
+            ownPost: {
+              ...createPost,
+              description: '',
+              topic: null,
+              preview: ''
+            }
+          }
+        });
+      },
+      refetchQueries() {
+        return ['ownPostsDraftQuery'];
       }
     }
   );
@@ -110,7 +129,7 @@ function NewPost({ history }) {
         <Header
           leftChild={
             <Fragment>
-              {!data && 'Draft'}
+              {!data && !loading && 'Draft'}
               {loading && 'Saving...'}
             </Fragment>
           }

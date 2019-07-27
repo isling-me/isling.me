@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const postsQuery = gql`
   {
-    posts(page: { first: 8 }, orderBy: publishedDate_DESC) {
+    posts(page: { first: 36 }, orderBy: publishedDate_DESC) {
       total
       items {
         id
@@ -13,6 +13,7 @@ export const postsQuery = gql`
         publishedDate
         readingTime
         topic {
+          id
           name
           slug
         }
@@ -44,6 +45,7 @@ export const popularPostsQuery = gql`
       publishedDate
       readingTime
       topic {
+        id
         slug
         name
       }
@@ -54,6 +56,7 @@ export const popularPostsQuery = gql`
 export const postQuery = gql`
   query postQuery($postId: ID!) {
     post(id: $postId) {
+      id
       title
       content {
         text
@@ -69,6 +72,7 @@ export const postQuery = gql`
         }
       }
       topic {
+        id
         name
         slug
       }
@@ -80,10 +84,15 @@ export const createPostMutation = gql`
   mutation createPostMutation($title: String, $text: String) {
     createPost(data: { title: $title, content: { text: $text } }) {
       id
+      slug
       title
       content {
+        id
         text
       }
+      state
+      updatedAt
+      publishedDate
     }
   }
 `;
@@ -100,7 +109,57 @@ export const updatePostContentMutation = gql`
       slug
       updatedAt
       content {
+        id
         text
+      }
+    }
+  }
+`;
+
+export const ownPostsDraftQuery = gql`
+  query ownPostsDraftQuery(
+    $state: PostState = DRAFT
+    $page: PageInput = { first: 5 }
+    $orderBy: PostOrderByInput = updatedAt_DESC
+  ) {
+    me {
+      posts(state: $state, page: $page, orderBy: $orderBy) {
+        total
+        items {
+          id
+          slug
+          title
+          content {
+            id
+            text
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
+export const ownPostsPublishedQuery = gql`
+  query ownPostsPublishedQuery(
+    $state: PostState = PUBLISHED
+    $page: PageInput = { first: 5 }
+    $orderBy: PostOrderByInput = publishedDate_DESC
+  ) {
+    me {
+      posts(state: $state, page: $page, orderBy: $orderBy) {
+        total
+        items {
+          id
+          slug
+          title
+          content {
+            id
+            text
+          }
+          updatedAt
+          publishedDate
+        }
       }
     }
   }
@@ -109,10 +168,28 @@ export const updatePostContentMutation = gql`
 export const ownPostContentQuery = gql`
   query ownPostContentQuery($postId: ID!) {
     ownPost(id: $postId) {
+      id
       title
       content {
+        id
         text
       }
+      state
+    }
+  }
+`;
+
+export const ownPostPreviewQuery = gql`
+  query ownPostPreviewQuery($postId: ID!) {
+    ownPost(id: $postId) {
+      id
+      title
+      description
+      topic {
+        id
+        name
+      }
+      preview
       state
     }
   }
@@ -138,6 +215,7 @@ export const publishPostMutation = gql`
       title
       slug
       content {
+        id
         text
       }
       topic {
@@ -149,6 +227,15 @@ export const publishPostMutation = gql`
       description
       publishedDate
       preview
+      readingTime
+      author {
+        id
+        username
+        profile {
+          name
+          avatar
+        }
+      }
     }
   }
 `;

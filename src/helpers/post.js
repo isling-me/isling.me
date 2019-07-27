@@ -3,6 +3,10 @@ import { makeUserUri } from './user';
 import { makeTopicUri } from './topic';
 
 export const formatPublishedDate = date => {
+  if (!date) {
+    return 'undefined';
+  }
+  console.log(date);
   const dateObj = date instanceof Date ? date : new Date(date);
 
   if (dateObj.getFullYear() === new Date().getFullYear()) {

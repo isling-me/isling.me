@@ -51,20 +51,12 @@ function PostEditor({ match }) {
   const ref = useRef({});
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [post, setPost] = useState({});
+  const [showEditor, setShowEditor] = useState(false);
   const [openPublishDialog, setOpenPublishDialog] = useState(false);
   const [updatePost, { loading, error }] = useMutation(
     updatePostContentMutation,
     {
-      variables: { title, text, postId: id },
-      refetchQueries({ data: { updatePost } }) {
-        return [
-          {
-            query: ownPostContentQuery,
-            variables: { postId: updatePost.id }
-          }
-        ];
-      }
+      variables: { title, text, postId: id }
     }
   );
 
@@ -105,14 +97,13 @@ function PostEditor({ match }) {
   };
 
   useEffect(() => {
-    if (feedPostRes.data.ownPost && title === '' && text === '') {
-      const { ownPost } = feedPostRes.data;
+    feedPostRes.refetch().then(({ data: { ownPost } }) => {
       setText(ownPost.content.text);
       setTitle(ownPost.title);
-      setPost(ownPost);
-    }
+      setShowEditor(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [feedPostRes.data]);
+  }, []);
 
   useEffect(() => {
     return () => updatePost();
@@ -135,7 +126,9 @@ function PostEditor({ match }) {
                 className="btn btn-pill btn-primary"
                 onClick={onOpenPublishDialog}
               >
-                {post.state === 'PUBLISHED'
+                {feedPostRes.data &&
+                feedPostRes.data.ownPost &&
+                feedPostRes.data.ownPost.state === 'PUBLISHED'
                   ? 'Edit preview, description, topic'
                   : 'Publish this post'}
               </button>
@@ -148,9 +141,7 @@ function PostEditor({ match }) {
         openDialog={openPublishDialog}
         onCloseDialog={onClosePublishDialog}
         post={{
-          ...post,
-          id,
-          title
+          id
         }}
       />
 
@@ -158,24 +149,28 @@ function PostEditor({ match }) {
         <div className="post m-auto">
           <div className="postContent px-6 lg:px-0 pt-6 lg:pt-24">
             {(() => {
-              if (title === '' && text === '') {
+              if (feedPostRes.loading) {
                 return <div>Loading...</div>;
               }
 
               return (
                 <Fragment>
-                  <Editor
-                    className="title text-3xl lg:text-4xl text-justify outline-none cursor-text"
-                    text={title}
-                    onChange={handleChangeTitle}
-                    options={titleEditorOptions}
-                  />
-                  <Editor
-                    className="markdown text-justify text-base outline-none pt-6 cursor-text"
-                    text={text}
-                    onChange={handleChangeText}
-                    options={textEditorOptions}
-                  />
+                  {showEditor && (
+                    <Fragment>
+                      <Editor
+                        className="title text-3xl lg:text-4xl text-justify outline-none cursor-text"
+                        text={title}
+                        onChange={handleChangeTitle}
+                        options={titleEditorOptions}
+                      />
+                      <Editor
+                        className="markdown text-justify text-base outline-none pt-6 cursor-text"
+                        text={text}
+                        onChange={handleChangeText}
+                        options={textEditorOptions}
+                      />
+                    </Fragment>
+                  )}
                 </Fragment>
               );
             })()}

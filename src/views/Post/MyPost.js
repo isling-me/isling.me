@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Header from '../Header/Header';
-import { ownPostsQuery } from '../../graphql/user';
-import { deletePostMutation, unpublishPostMutation } from '../../graphql/post';
+import {
+  deletePostMutation,
+  unpublishPostMutation,
+  ownPostsDraftQuery,
+  ownPostsPublishedQuery
+} from '../../graphql/post';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { stripHtml, timeDifference } from '../../helpers/utils';
 import { formatPublishedDate } from '../../helpers/post';
 
 function totalPosts(data) {
   return data && data.me ? data.me.posts.total : 0;
+}
+
+function writePageInfo(page, data) {
+  const canShow = page.skip + page.first;
+  const total = totalPosts(data);
+
+  return `${canShow < total ? canShow : total} / ${total}`;
 }
 
 const pageInit = { first: 5, skip: 0 };
@@ -18,37 +29,26 @@ const isStatePublished = state => state === 'published';
 function MyPost({ match }) {
   const { state } = match.params;
   const [page, setPage] = useState(pageInit);
-  const { data, loading, refetch, networkStatus } = useQuery(ownPostsQuery, {
-    variables: {
-      state: state.toUpperCase(),
-      page,
-      orderBy: isStateDraft(state) ? 'updatedAt_DESC' : 'publishedDate_DESC'
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    isStateDraft(state) ? ownPostsDraftQuery : ownPostsPublishedQuery,
+    {
+      variables: {
+        state: state.toUpperCase(),
+        page,
+        orderBy: isStateDraft(state) ? 'updatedAt_DESC' : 'publishedDate_DESC'
+      },
+      fetchPolicy: 'cache-and-network'
     }
-  });
-  const [deletePost, { loading: deleting }] = useMutation(deletePostMutation, {
-    onCompleted() {
-      refetch({ skip: deleting });
-    },
-    onError() {
-      refetch();
+  );
+  const [deletePost] = useMutation(deletePostMutation, {
+    refetchQueries() {
+      return ['ownPostsDraftQuery', 'ownPostsPublishedQuery'];
     }
   });
 
   const [unpublishPost] = useMutation(unpublishPostMutation, {
     refetchQueries() {
-      return [
-        {
-          query: ownPostsQuery,
-          variables: {
-            state: 'DRAFT',
-            page: pageInit,
-            orderBy: 'updatedAt_DESC'
-          }
-        }
-      ];
-    },
-    onCompleted() {
-      refetch();
+      return ['ownPostsDraftQuery', 'ownPostsPublishedQuery'];
     }
   });
 
@@ -122,9 +122,7 @@ function MyPost({ match }) {
               Back
             </button>
             <div className="mx-4">
-              <p>
-                {page.skip + page.first} / {totalPosts(data)}
-              </p>
+              <p>{writePageInfo(page, data)}</p>
             </div>
             <button
               onClick={nextPage}
@@ -139,8 +137,11 @@ function MyPost({ match }) {
           if (networkStatus === 4) {
             return <div>Refetching</div>;
           }
-          if (loading) {
+          if (!data || !data.me) {
             return <div>Loading...</div>;
+          }
+          if (error) {
+            return <div>Error</div>;
           }
 
           return data.me.posts.items.map(post => (
@@ -156,19 +157,24 @@ function MyPost({ match }) {
                       : `/posts/${post.slug}/${post.id}`
                   }
                 >
-                  <h3 className="text-gray-900">{post.title}</h3>
-                  <div className="text-gray-700 break-words truncate">
-                    {stripHtml(post.content.text, ' ')}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {isStateDraft(state) &&
-                      `Last edited ${timeDifference(post.updatedAt)} ago`}
-                    {isStatePublished(state) &&
-                      `Published at ${formatPublishedDate(post.publishedDate)}`}
+                  <div className="w-full">
+                    <h3 className="text-gray-900">{post.title}</h3>
+                    <div className="text-gray-700 break-words truncate">
+                      {stripHtml(post.content.text, ' ')}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {console.log(post)}
+                      {isStateDraft(state) &&
+                        `Last edited ${timeDifference(post.updatedAt)} ago`}
+                      {isStatePublished(state) &&
+                        `Published at ${formatPublishedDate(
+                          post.publishedDate
+                        )}`}
+                    </div>
                   </div>
                 </Link>
               </div>
-              <div className="flex items-center justify-end pl-4 w-full">
+              <div className="flex items-center justify-end pl-4 w-2/12">
                 <Link to={`/p/${post.id}/edit`} className="mr-2">
                   <i className="material-icons text-gray-700 cursor-pointer block">
                     create
