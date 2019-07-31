@@ -15,13 +15,13 @@ function Home() {
       <div className="hidden lg:block">
         <Header
           leftChild={
-            <div className="flex items-center">
+            <div className="flex items-center text-lg border-l border-gray-300 pl-4">
               {data &&
                 data.topics &&
                 data.topics.items.map(topic => (
                   <Link
                     to={makeTopicUri(topic.slug)}
-                    className="inline-block pr-6 text-gray-600 hover:text-gray-800 text-md"
+                    className="inline-block pr-3 text-gray-700 hover:text-gray-900 text-xs font-semibold"
                     key={topic.slug}
                   >
                     {topic.name.toUpperCase()}
@@ -33,11 +33,11 @@ function Home() {
       </div>
       <div className="container mx-auto pb-24">
         <div className="p-6 lg:p-0">
-          <div className="relative w-full mt-3 lg:mt-16">
+          <div className="relative w-full mt-3 lg:mt-24">
             <div className="w-full lg:w-8/12 lg:pr-4">
               <SectionPosts />
             </div>
-            <div className="lg:w-4/12 hidden lg:block absolute top-0 right-0">
+            <div className="lg:w-4/12 pl-4 hidden lg:block absolute top-0 right-0">
               <SectionPopular />
             </div>
           </div>

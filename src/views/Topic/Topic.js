@@ -35,7 +35,7 @@ const Profile = ({ match }) => {
       />
       <div className="container mx-auto mt-24">
         <div className="flex">
-          <div className="w-8/12 pr-8">
+          <div className="w-8/12 pr-4">
             {data &&
               data.topic &&
               data.topic.posts.items
