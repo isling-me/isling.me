@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { currentUserQuery } from '../graphql/user';
 import { useQuery } from '@apollo/react-hooks';
-import { logout, getUserData, saveUserData } from '../helpers/auth';
+import {
+  logout,
+  getUserData,
+  saveUserData,
+  getAuthToken
+} from '../helpers/auth';
 
 function useCurrentUser() {
+  const token = getAuthToken();
   const cachedData = getUserData();
 
   const [currentUser, setCurrentUser] = useState(cachedData);
@@ -16,10 +22,14 @@ function useCurrentUser() {
       logout();
       setCurrentUser(null);
     },
-    skip: !!cachedData
+    skip: !token
   });
 
-  return [currentUser, { error, login: currentUser !== null }];
+  if (!token) {
+    return [null, { login: false }];
+  }
+
+  return [currentUser, { error, login: currentUser !== null, saveUserData }];
 }
 
 export default useCurrentUser;

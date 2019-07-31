@@ -137,11 +137,14 @@ function MyPost({ match }) {
           if (networkStatus === 4) {
             return <div>Refetching</div>;
           }
+
+          if (error) {
+            console.log(error);
+            return <div>Error</div>;
+          }
+
           if (!data || !data.me) {
             return <div>Loading...</div>;
-          }
-          if (error) {
-            return <div>Error</div>;
           }
 
           return data.me.posts.items.map(post => (
@@ -163,7 +166,6 @@ function MyPost({ match }) {
                       {stripHtml(post.content.text, ' ')}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {console.log(post)}
                       {isStateDraft(state) &&
                         `Last edited ${timeDifference(post.updatedAt)} ago`}
                       {isStatePublished(state) &&

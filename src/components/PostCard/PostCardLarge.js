@@ -11,13 +11,22 @@ function PostCard(props) {
     readingTime,
     link,
     author,
-    topic
+    topic,
+    className
   } = props;
   return (
-    <div className="postCard w-full">
+    <div className={`postCard w-full ${className}`}>
       <Link to={link}>
         <div className="flex">
-          <div className="w-9/12">
+          {preview && (
+            <div className="w-6/12 mr-6">
+              <div
+                className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
+                style={{ backgroundImage: `url(${preview})` }}
+              />
+            </div>
+          )}
+          <div className="flex-1">
             <div className="w-full">
               <div className="text-base lg:text-xl font-semibold mt-0 text-gray-900 line-height-100">
                 {title}
@@ -52,12 +61,6 @@ function PostCard(props) {
                 <div className="inline">{readingTime}</div>
               </div>
             </div>
-          </div>
-          <div className="w-3/12">
-            <div
-              className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
-              style={{ backgroundImage: `url(${preview})` }}
-            />
           </div>
         </div>
       </Link>

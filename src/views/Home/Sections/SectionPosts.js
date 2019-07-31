@@ -5,7 +5,7 @@ import { formatPostForCard } from '../../../helpers/post';
 import { useQuery } from '@apollo/react-hooks';
 
 function SectionPosts() {
-  const { error, data = {} } = useQuery(postsQuery, {
+  const { data } = useQuery(postsQuery, {
     fetchPolicy: 'cache-and-network'
   });
 
@@ -17,9 +17,9 @@ function SectionPosts() {
             return <div>Loading...</div>;
           }
 
-          if (error) {
-            return <div>Error</div>;
-          }
+          // if (error) {
+          //   return <div>Error</div>;
+          // }
 
           return data.posts.items.map(formatPostForCard).map(p => (
             <div className="mb-6 lg:mb-12" key={`${p.slug}-${p.id}`}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -31,13 +31,17 @@ function PostCardMini(props) {
                 >
                   {author.name}
                 </Link>
-                <div className="inline px-1">in</div>
-                <Link
-                  to={`${topic.link}`}
-                  className="link hover:underline focus:underline"
-                >
-                  {topic.name}
-                </Link>
+                {topic && (
+                  <Fragment>
+                    <div className="inline px-1">in</div>
+                    <Link
+                      to={`${topic.link}`}
+                      className="link hover:underline focus:underline"
+                    >
+                      {topic.name}
+                    </Link>
+                  </Fragment>
+                )}
               </div>
               <div className="text-xs font-light">
                 <time className="inline">{publishedDate}</time>
@@ -65,7 +69,7 @@ PostCardMini.propTypes = {
   topic: PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired
-  }).isRequired
+  })
 };
 
 export default PostCardMini;

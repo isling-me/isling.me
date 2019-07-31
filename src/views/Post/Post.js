@@ -4,6 +4,7 @@ import { postQuery } from '../../graphql/post';
 import NavBar from '../../components/NavBar/NavBar';
 import { makeUserUri } from '../../helpers/user';
 import { formatPublishedDate } from '../../helpers/post';
+import { makeTopicUri } from '../../helpers/topic';
 import { useQuery } from '@apollo/react-hooks';
 import Header from '../Header/Header';
 
@@ -21,7 +22,23 @@ function Post({ match }) {
         <NavBar />
       </div>
       <div className="hidden lg:block">
-        <Header />
+        <Header
+          leftChild={
+            data &&
+            data.post && (
+              <div>
+                <Link
+                  to={
+                    data.post.topic ? makeTopicUri(data.post.topic.slug) : '/'
+                  }
+                  className="text-lg border-l border-gray-300 pl-4 text-gray-800"
+                >
+                  {data.post.topic ? data.post.topic.name : 'Home'}
+                </Link>
+              </div>
+            )
+          }
+        />
       </div>
       <div className="container mx-auto pb-24">
         <div className="post mx-auto">
@@ -32,7 +49,7 @@ function Post({ match }) {
               }
 
               if (error) {
-                return <div>Error</div>;
+                return <div>Error{console.log(error)}</div>;
               }
 
               const { post } = data;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { logout } from '../../helpers/auth';
+import Header from '../Header/Header';
 
-function Logout({ history }) {
+function Logout() {
   logout();
   window.location.replace('/');
 
-  return <div>Logout</div>;
+  return <Header />;
 }
 
-export default withRouter(Logout);
+export default Logout;

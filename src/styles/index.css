@@ -8,6 +8,8 @@ html {
     Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
     Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   font-size: 18px;
+  overflow-y: scroll;
+  /* margin-left: calc(100vw - 100%); */
 }
 
 body {

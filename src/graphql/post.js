@@ -21,6 +21,7 @@ export const postsQuery = gql`
           id
           username
           profile {
+            id
             name
           }
         }
@@ -39,6 +40,7 @@ export const popularPostsQuery = gql`
         username
         id
         profile {
+          id
           name
         }
       }
@@ -59,6 +61,7 @@ export const postQuery = gql`
       id
       title
       content {
+        id
         text
       }
       readingTime
@@ -67,6 +70,7 @@ export const postQuery = gql`
         id
         username
         profile {
+          id
           name
           avatar
         }
@@ -123,6 +127,7 @@ export const ownPostsDraftQuery = gql`
     $orderBy: PostOrderByInput = updatedAt_DESC
   ) {
     me {
+      id
       posts(state: $state, page: $page, orderBy: $orderBy) {
         total
         items {
@@ -147,6 +152,7 @@ export const ownPostsPublishedQuery = gql`
     $orderBy: PostOrderByInput = publishedDate_DESC
   ) {
     me {
+      id
       posts(state: $state, page: $page, orderBy: $orderBy) {
         total
         items {
@@ -232,6 +238,7 @@ export const publishPostMutation = gql`
         id
         username
         profile {
+          id
           name
           avatar
         }
@@ -256,6 +263,25 @@ export const deletePostMutation = gql`
     deletePost(id: $postId) {
       status
       message
+    }
+  }
+`;
+
+export const userPostsQuery = gql`
+  query userPostsQuery($username: String!) {
+    user(username: $username) {
+      id
+      username
+      posts(page: { first: 5 }, orderBy: publishedDate_DESC) {
+        items {
+          id
+          title
+          slug
+          description
+          publishedDate
+        }
+        total
+      }
     }
   }
 `;

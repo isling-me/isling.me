@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
-import { topicsSearchQuery } from '../../graphql/topic';
+import { topicsSearchQuery, topicRandomQuery } from '../../graphql/topic';
 import {
   publishPostMutation,
   postQuery,
@@ -12,16 +12,20 @@ import FullScreenDialog from '../../components/Dialog/FullScreenDialog';
 import { makePostUri } from '../../helpers/post';
 
 const maxLengthDescription = 140;
-const topicRandom = { name: 'Random' };
 
 const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
   const [description, setDescription] = useState('');
   const [preview, setPreview] = useState('');
-  const [topic, setTopic] = useState(topicRandom);
+  const [topicRandom, setTopicRandom] = useState({ id: '', name: '' });
+  const [topic, setTopic] = useState({
+    name: ''
+  });
   const [showItems, setShowItems] = useState(false);
   const [postLink, setPostLink] = useState(false);
+  const { refetch: fetchTopicRandom } = useQuery(topicRandomQuery);
   const { data, refetch, loading } = useQuery(topicsSearchQuery, {
-    variables: { filter: topic.name }
+    variables: { filter: topic.name },
+    skip: topic.id === topicRandom.id
   });
   const [uploadImage, { loading: uploading }] = useUploadFile();
   const [publishPost] = useMutation(publishPostMutation, {
@@ -59,7 +63,8 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
     }
   });
   const { refetch: fetchPublishInfo } = useQuery(ownPostPreviewQuery, {
-    variables: { postId: post.id }
+    variables: { postId: post.id },
+    skip: post.state !== 'PUBLISHED'
   });
 
   const onChangeDescription = newDes => {
@@ -88,19 +93,12 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
 
   const onChangeTopic = ({ target: { value } }) => {
     setTopic(prev => ({
-      ...prev,
+      id: '',
       name: value
     }));
     refetch({ filter: value });
     setShowItems(true);
   };
-
-  // const onBlurTopic = () => {
-  //   if (topic.name === '') {
-  //     setTopic({ name: 'Random' });
-  //     setShowItems(false);
-  //   }
-  // };
 
   const onFocusTopic = () => {
     if (topic.name === 'Random') {
@@ -115,11 +113,20 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
   };
 
   useEffect(() => {
-    fetchPublishInfo().then(({ data: { ownPost: post } }) => {
-      setDescription(post.description || '');
-      setPreview(post.preview || '');
-      setTopic(post.topic || topicRandom);
-    });
+    if (post.state === 'PUBLISHED') {
+      fetchPublishInfo().then(({ data: { ownPost: post } }) => {
+        setDescription(post.description || '');
+        setPreview(post.preview || '');
+        setTopic(post.topic || topicRandom);
+      });
+    }
+
+    if (post.state === 'DRAFT') {
+      fetchTopicRandom().then(({ data: { topic: topicRan } }) => {
+        setTopicRandom(topicRan);
+        setTopic(topicRan);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -185,7 +192,6 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
               type="text"
               value={topic.name}
               onChange={onChangeTopic}
-              // onBlur={onBlurTopic}
               onFocus={onFocusTopic}
               className="w-full px-2 py-2 border border-gray-300"
             />
@@ -210,7 +216,7 @@ const PostPublish = ({ openDialog, onCloseDialog, post, history }) => {
           <div className="pt-4 flex items-center">
             <button
               className="btn btn-pill btn-primary"
-              disabled={uploading}
+              disabled={uploading || !topic.id}
               onClick={() => publishPost()}
             >
               {post.state === 'PUBLISHED' ? 'Save' : 'Publish now'}

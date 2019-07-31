@@ -118,34 +118,40 @@ function PostEditor({ match }) {
       <div className="hidden lg:block">
         <Header
           leftChild={
-            <div className="flex items-center mr-8">
+            <div className="flex items-center">
               {!loading && 'Saved'}
               {loading && 'Saving...'}
-              <div className="flex-1" />
-              <button
-                className="btn btn-pill btn-primary"
-                onClick={onOpenPublishDialog}
-              >
-                {feedPostRes.data &&
-                feedPostRes.data.ownPost &&
-                feedPostRes.data.ownPost.state === 'PUBLISHED'
-                  ? 'Edit preview, description, topic'
-                  : 'Publish this post'}
-              </button>
             </div>
+          }
+          rightChild={
+            <button
+              className="btn btn-pill btn-outline"
+              onClick={onOpenPublishDialog}
+            >
+              {feedPostRes.data &&
+              feedPostRes.data.ownPost &&
+              feedPostRes.data.ownPost.state === 'PUBLISHED'
+                ? 'Edit preview, description, topic'
+                : 'Publish this post'}
+            </button>
           }
         />
       </div>
 
-      <PostPublishDialog
-        openDialog={openPublishDialog}
-        onCloseDialog={onClosePublishDialog}
-        post={{
-          id
-        }}
-      />
+      {feedPostRes.data &&
+        feedPostRes.data.ownPost &&
+        feedPostRes.data.ownPost.state && (
+          <PostPublishDialog
+            openDialog={openPublishDialog}
+            onCloseDialog={onClosePublishDialog}
+            post={{
+              id,
+              state: feedPostRes.data.ownPost.state
+            }}
+          />
+        )}
 
-      <div className="container m-auto">
+      <div className="container m-auto pb-24">
         <div className="post m-auto">
           <div className="postContent px-6 lg:px-0 pt-6 lg:pt-24">
             {(() => {

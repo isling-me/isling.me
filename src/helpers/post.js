@@ -6,7 +6,6 @@ export const formatPublishedDate = date => {
   if (!date) {
     return 'undefined';
   }
-  console.log(date);
   const dateObj = date instanceof Date ? date : new Date(date);
 
   if (dateObj.getFullYear() === new Date().getFullYear()) {
@@ -17,11 +16,6 @@ export const formatPublishedDate = date => {
 };
 
 export const makePostUri = (slug, id) => `/posts/${slug}/${id}`;
-
-const rootTopic = {
-  name: 'Random',
-  link: '/'
-};
 
 export const formatPostForCard = p => ({
   ...p,
@@ -35,7 +29,7 @@ export const formatPostForCard = p => ({
         name: p.topic.name,
         link: makeTopicUri(p.topic.slug)
       }
-    : rootTopic,
+    : undefined,
   readingTime: `${p.readingTime} min`,
   publishedDate: formatPublishedDate(new Date(p.publishedDate))
 });

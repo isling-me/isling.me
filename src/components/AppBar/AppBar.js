@@ -3,7 +3,7 @@ import React from 'react';
 function AppBar({ children, border }) {
   return (
     <header
-      className={`fixed w-screen top-0 z-40 bg-white${border &&
+      className={`fixed w-full top-0 z-40 bg-white${border &&
         ' border-b border-gray-300'}`}
     >
       <div className="container mx-auto h-12">

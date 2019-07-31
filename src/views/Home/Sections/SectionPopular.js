@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { popularPostsQuery } from '../../../graphql/post';
-import PostCard from '../../../components/PostCardMini/PostCardMini';
+import PostCard from '../../../components/PostCard/PostCardMini';
 import { formatPostForCard } from '../../../helpers/post';
 
 function SectionPopular() {
@@ -14,7 +14,7 @@ function SectionPopular() {
           {data &&
             data.popularPosts &&
             data.popularPosts.map(formatPostForCard).map((p, idx) => (
-              <div className="pb-5" key={p.slug}>
+              <div className="pb-5" key={`${p.slug}-${p.id}`}>
                 <PostCard index={`0${idx + 1}`} {...p} />
               </div>
             ))}

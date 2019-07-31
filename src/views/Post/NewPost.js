@@ -135,7 +135,7 @@ function NewPost({ history }) {
           }
         />
       </div>
-      <div className="container m-auto">
+      <div className="container m-auto pb-24">
         <div className="post m-auto">
           <div className="postContent px-6 lg:px-0">
             <Editor
