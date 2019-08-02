@@ -21,7 +21,7 @@ function Home() {
                 data.topics.items.map(topic => (
                   <Link
                     to={makeTopicUri(topic.slug)}
-                    className="inline-block pr-3 text-gray-700 hover:text-gray-900 text-xs font-semibold"
+                    className="inline-block pr-5 text-gray-700 hover:text-gray-900 text-base"
                     key={topic.slug}
                   >
                     {topic.name.toUpperCase()}

@@ -7,6 +7,7 @@ import { formatPublishedDate } from '../../helpers/post';
 import { makeTopicUri } from '../../helpers/topic';
 import { useQuery } from '@apollo/react-hooks';
 import Header from '../Header/Header';
+import Avatar from '../../components/Avatar/Avatar';
 
 function Post({ match }) {
   const { id } = match.params;
@@ -62,10 +63,9 @@ function Post({ match }) {
                   {/*  {post.caption}*/}
                   {/*</div>*/}
                   <div className="flex bg-white rounded-lg pt-8 pb-8 author items-center">
-                    <img
-                      className="w-10 h-10 rounded-full mx-auto"
-                      alt="avatar"
-                      src={post.author.profile.avatar}
+                    <Avatar
+                      imageUrl={post.author.profile.avatar}
+                      name={post.author.profile.name}
                     />
                     <div className="text-left flex-1 pl-2">
                       <Link

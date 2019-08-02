@@ -18,9 +18,11 @@ function useCurrentUser() {
       setCurrentUser(me);
       saveUserData(me);
     },
-    onError() {
-      logout();
-      setCurrentUser(null);
+    onError(error) {
+      if (error.message && error.message.includes('unauthorized')) {
+        logout();
+        setCurrentUser(null);
+      }
     },
     skip: !token
   });
