@@ -55,7 +55,7 @@ function PostCard(props) {
           </div>
           <div className="w-3/12">
             <div
-              className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
+              className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover bg-center"
               style={{ backgroundImage: `url(${preview})` }}
             />
           </div>

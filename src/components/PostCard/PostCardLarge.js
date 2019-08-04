@@ -19,9 +19,9 @@ function PostCard(props) {
       <Link to={link}>
         <div className="flex">
           {preview && (
-            <div className="w-6/12 mr-6">
+            <div className="w-4/12 mr-4 lg:w-6/12 lg:mr-6">
               <div
-                className="w-16 h-16 float-right clearfix lg:h-full lg:w-full bg-cover"
+                className="w-full h-full float-right clearfix lg:h-full lg:w-full bg-cover bg-center"
                 style={{ backgroundImage: `url(${preview})` }}
               />
             </div>
