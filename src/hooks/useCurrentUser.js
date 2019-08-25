@@ -19,7 +19,11 @@ function useCurrentUser() {
       saveUserData(me);
     },
     onError(error) {
-      if (error.message && error.message.includes('unauthorized')) {
+      if (
+        error.message &&
+        (error.message.includes('unauthorized') ||
+          error.message.includes('jwt expired'))
+      ) {
         logout();
         setCurrentUser(null);
       }

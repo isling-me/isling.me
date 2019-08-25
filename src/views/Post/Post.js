@@ -83,7 +83,7 @@ function Post({ match }) {
                     </div>
                   </div>
                   <div
-                    className="markdown text-justify text-base"
+                    className="markdown text-justify text-base post-present"
                     dangerouslySetInnerHTML={{ __html: post.content.text }}
                   />
                 </Fragment>
