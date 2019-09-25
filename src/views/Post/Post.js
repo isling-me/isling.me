@@ -8,6 +8,7 @@ import { makeTopicUri } from '../../helpers/topic';
 import { useQuery } from '@apollo/react-hooks';
 import Header from '../Header/Header';
 import Avatar from '../../components/Avatar/Avatar';
+import '../../components/MediumEditor/lib/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin-frontend.css';
 
 function Post({ match }) {
   const { id } = match.params;

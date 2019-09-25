@@ -18,7 +18,7 @@ function PostCard(props) {
       <Link to={link}>
         <div className="flex">
           <div className="w-9/12">
-            <div className="w-full">
+            <div className="w-full pr-3">
               <div className="text-base lg:text-xl font-semibold mt-0 text-gray-900 line-height-100">
                 {title}
               </div>

@@ -176,10 +176,13 @@ function PostEditor({ match, history }) {
             //     setUploadingImage(false);
             //   }
             // }
+          },
+          embeds: {
+            oembedProxy:
+              process.env.NODE_ENV === 'development'
+                ? 'http://medium.iframe.ly/api/oembed?iframe=1'
+                : 'https://iframe.ly/api/oembed?api_key=f583a8d31212c95c1d77a6&iframe=1'
           }
-          // embeds: {
-          //   oembedProxy: 'https://medium.iframe.ly/api/oembed?iframe=1'
-          // }
         },
         handleShowAddons() {
           ref.current.isInsertingImage = true;
@@ -208,6 +211,7 @@ function PostEditor({ match, history }) {
     if (!id) {
       if (data && typeof data.createPost.id === 'string') {
         history.push(`/p/${data.createPost.id}/edit`);
+        data.createPost.id = null;
       } else {
         setTitle('');
         setText('');
