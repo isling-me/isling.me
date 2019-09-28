@@ -32,6 +32,12 @@ const Login = ({ history }) => {
     login();
   };
 
+  const handleLoginByEnter = e => {
+    if (e.key === 'Enter') {
+      handleLogin(e);
+    }
+  };
+
   return (
     <div className="h-screen">
       <div className="flex justify-center items-center h-full">
@@ -61,6 +67,7 @@ const Login = ({ history }) => {
                     id="password"
                     value={password}
                     onChange={e => handleChangePassword(e.target.value)}
+                    onKeyPress={handleLoginByEnter}
                   />
                 </div>
               </div>
