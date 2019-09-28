@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 
 const sizeCustomDefault = { width: 8, textSize: 'xl' };
 
+const getRepresentChar = name => {
+  if (!name) {
+    return ' ';
+  }
+
+  const trimName = name.trim();
+  const lastBlank = trimName.lastIndexOf(' ');
+  return trimName[lastBlank + 1];
+};
+
 const Avatar = ({
   className,
   link,
@@ -38,24 +48,18 @@ const Avatar = ({
       <Link to={link ? link : '#'}>
         {imageUrl ? (
           <img
-            className={`rounded-full w-${sizeConfig[chooseSize].width} h-${
-              sizeConfig[chooseSize].width
-            } block`}
+            className={`rounded-full w-${sizeConfig[chooseSize].width} h-${sizeConfig[chooseSize].width} block`}
             src={imageUrl}
             alt={name}
           />
         ) : (
           <div
-            className={`rounded-full w-${sizeConfig[chooseSize].width} h-${
-              sizeConfig[chooseSize].width
-            } block bg-blue-600 flex justify-center items-center`}
+            className={`rounded-full w-${sizeConfig[chooseSize].width} h-${sizeConfig[chooseSize].width} block bg-blue-600 flex justify-center items-center`}
           >
             <div
-              className={`text-${
-                sizeConfig[chooseSize].textSize
-              } font-semibold text-white`}
+              className={`text-${sizeConfig[chooseSize].textSize} font-semibold text-white`}
             >
-              {name.charAt(0)}
+              {getRepresentChar(name)}
             </div>
           </div>
         )}
